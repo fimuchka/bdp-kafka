@@ -7,3 +7,6 @@
  * [Kafka Docker](https://hub.docker.com/r/wurstmeister/kafka/) Docker images with instructions on how to install
  * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
  * [Kafka project page](https://kafka.apache.org/)
+
+## Dataset
+ * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
