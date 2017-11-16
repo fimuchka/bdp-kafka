@@ -13,3 +13,4 @@
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
 
 ## Docker Intallation
+ * Fraud detection model
