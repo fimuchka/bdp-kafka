@@ -13,14 +13,14 @@
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
 
 ## Models
- *   Naive Bayes
- *   Logistic
- *   Gradient Descent
- *   Perceptron
- *   Neural Network
- *   Decision Tree
- *   Random Forest
- *   AdaBoost
- *   Gradient Boosting
- *   Bagging
- *   SVM-RBF
+ *  Naive Bayes
+ *  Logistic
+ *  Gradient Descent
+ *  Perceptron
+ *  Neural Network
+ *  Decision Tree
+ *  Random Forest
+ *  AdaBoost
+ *  Gradient Boosting
+ *  Bagging
+ *  SVM-RBF
