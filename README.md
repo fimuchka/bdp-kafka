@@ -19,7 +19,7 @@ Apache Kafka was originally developed by LinkedIn, and was subsequently open sou
 
 Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams.
 
-![](images/kafka%20structure.png)
+![](bdp-kafka/images/kafka%20structure.png)
 
 ## Project Overview
 TBD
