@@ -40,7 +40,7 @@
  * To exit the docker container press Ctrl-D
  * Now we'll install the python requirements. If on Windows and you installed Miniconda for python, start the Miniconda prompt, and navigate to the bdf-kafka directory where the `requirements.txt` file is
  ```bash
- pip install -f requirements.txt
+ pip install -r requirements.txt
  ``` 
  * Run the script to push data to the Kafka brokers
  ```bash
