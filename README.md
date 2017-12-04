@@ -24,3 +24,6 @@
  * Logistic Regression
  * Gradient Decent
  * Decision Tree
+
+## Model selection
+ * Based on accuracy measure and computation efficiency (time elapsed), the chosen model is Decision Tree
