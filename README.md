@@ -28,29 +28,18 @@
  ```bash
   docker ps -a
  ```
- * To view that the topics were created successfully, we need to interact with Kafka from within one of the containers.
+ * To view that the topics were created successfully, we need to use the Kafka container to run the kafka scripts.
  ```bash
-  docker exec -it bdpkafka_kafka_1 bash
- ```
- * Now you're inside the container. There you can run some install kafka scripts.
- ```bash
-  kafka-topics.sh  --list --zookeeper $KAFKA_ZOOKEEPER_CONNECT
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --list --zookeeper $KAFKA_ZOOKEEPER_CONNECT'
  ```
  * You should see 3 topics listed: `raw`, `preprocessed`, `decision`
- * To exit the docker container press Ctrl-D
- * Now we'll install the python requirements. If on Windows and you installed Miniconda for python, start the Miniconda prompt, and navigate to the bdf-kafka directory where the `requirements.txt` file is
- ```bash
- pip install -f requirements.txt
- ``` 
  * Run the script to push data to the Kafka brokers
  ```bash
- python src/activity_producer.py <path_to_downloaded_and_unzipped_dataset>
+ docker exec bdpkafka_python_1 python /bdb/activity_producer.py <path_to_downloaded_and_unzipped_dataset>
  ```
- * Lets verify the messages are there. This involves once again going into the docker container.
+ * Lets verify the messages are there. This involves once again running a command with the kafka  docker container.
  ```bash
- docker exec -it bdpkafka_kafka_1 bash
- # Now you're in the container:
- kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic raw
+ docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic raw'
  ```
  * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
  * To stop the docker containers:

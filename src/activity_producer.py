@@ -6,10 +6,14 @@ import argparse
 import csv
 import json
 import pprint
+import logging
+import sys
 
 from kafka import KafkaProducer
 #from kafka.errors import KafkaError
 
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger()
 
 def read_data(file_path):
     """Yield a dictionary of header/line for each line in csv"""
@@ -25,8 +29,11 @@ def main(kafka_broker, kafka_topic, file_path):
     producer = KafkaProducer(bootstrap_servers=kafka_broker,
                              value_serializer=lambda x: json.dumps(x).encode(
                                  "utf-8"))
+    logger.info("Reading messages from csv")
     for item in read_data(file_path):
         producer.send(kafka_topic, item)
+ 
+    logger.info("Sending all messages to Kafka")
     producer.close()
     pprint.pprint(producer.metrics())
 
@@ -38,9 +45,9 @@ if __name__ == "__main__":
                       zipped with the header in json format to a Kafka topic""")
     arg_parser.add_argument("--broker",
                             dest="kafka_broker",
-                            default="localhost:9092",
+                            default="kafka:9092",
                             help="""The url:port of the kafka broker
-                                 (default is localhost:)""")
+                                 (default is kafka:9092)""")
     arg_parser.add_argument("--topic",
                             dest="kafka_topic",
                             default="raw",
