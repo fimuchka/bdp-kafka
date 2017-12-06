@@ -33,9 +33,13 @@
   docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --list --zookeeper $KAFKA_ZOOKEEPER_CONNECT'
  ```
  * You should see 3 topics listed: `raw`, `preprocessed`, `decision`
+ * Copy the dataset we're using to seed Kafka to the python container
+ ```bash
+ docker cp <path_to_downloaded_and_unzipped_dataset> bdpkafka_python_1:/tmp/creditcard.csv
+ ```
  * Run the script to push data to the Kafka brokers
  ```bash
- docker exec bdpkafka_python_1 python /bdb/activity_producer.py <path_to_downloaded_and_unzipped_dataset>
+ docker exec bdpkafka_python_1 python /bdp/activity_producer.py /tmp/creditcard.csv
  ```
  * Lets verify the messages are there. This involves once again running a command with the kafka  docker container.
  ```bash
@@ -44,5 +48,5 @@
  * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
  * To stop the docker containers:
  ```bash
- docker compose down
+ docker-compose down
  ```
