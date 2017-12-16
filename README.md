@@ -14,6 +14,7 @@
  * Add three fake columns to the original dataset: unique user ID, user type (international or domestic), unique account number
  * Columns appended will be used in aggregation in application.
  * Split the new dataset "creditcardfake" into training and test sets.
+ * [Download datasets] (https://drive.google.com/open?id=1QIeiHcDd0JGeK8jWN-GQskRY-3lvG9R8)
  
 ## Model
  * Fraud detection model using logistics regression
