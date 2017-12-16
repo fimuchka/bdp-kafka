@@ -3,6 +3,9 @@
 #################
 
 @author: Carol (Shimeng) Lin
+################# 
+## Big Data Project: generate three fake columns 
+#################
 
 # 1. unique user id
 # 2. international/domestic
@@ -23,6 +26,17 @@ data.2 <- data.frame(data, UserID = rep(NA, times=nrow(data)),
 head(data.2)
 
 ## 1. generate unique ID
+
+#idmaker <- function(x){
+#  max.val = x*100
+#  count <- nchar(as.character(max.val))
+#  size <- paste('%0', count, 'd', sep='')
+#  lets <- toupper(sample(letters, x, replace=T))
+#  nums <- sprintf(size, sample(1:max.val)[1])
+#  ids <- paste(lets, nums, sep='')
+#  return(ids)
+#} # function end
+
 
 for (i in 1:nrow(data.2)){
   data.2$UserID[i] <- UUIDgenerate(TRUE)
@@ -60,10 +74,7 @@ for (i in 1:nrow(data.2)){
 # delete column temp
 data.2$temp <- NULL
 
-
 head(data.2)
-head(tail.2)
-
 
 # write to csv file
 write.csv(data.2, file = "creditcardfake.csv")
@@ -71,5 +82,33 @@ read.csv("creditcardfake.csv", row.names = c("Time"    , "V1"  ,     "V2"  ,    
                                             "V10"     , "V11"   ,   "V12" ,     "V13"  ,    "V14"    ,  "V15"    ,  "V16"    ,  "V17" ,     "V18"    ,  "V19",     
                                             "V20"   ,   "V21" ,     "V22"   ,   "V23"    ,  "V24"  ,    "V25" ,     "V26" ,     "V27" ,     "V28"    ,  "Amount"  ,
                                              "Class" ,   "UserID" ,  "UserType" ,"AccntNum"))
+# split dataset to training and test sets
+install.packages('caTools')
+library(caTools) # select lib
 
+set.seed(123) 
+
+split = sample.split(data.2, SplitRatio = 0.6)
+
+training = subset(data.2, split == TRUE) # True -> go to training
+test = subset(data.2, split == FALSE) # 40%
+
+head(training)
+head(test)
+dim(test) #117271     34
+
+# write to training
+write.csv(training, file = "training.csv")
+read.csv("training.csv", row.names = c("Time"    , "V1"  ,     "V2"  ,     "V3"   ,    "V4"    ,   "V5"    ,   "V6"  ,     "V7"    ,   "V8",       "V9" ,     
+                                             "V10"     , "V11"   ,   "V12" ,     "V13"  ,    "V14"    ,  "V15"    ,  "V16"    ,  "V17" ,     "V18"    ,  "V19",     
+                                             "V20"   ,   "V21" ,     "V22"   ,   "V23"    ,  "V24"  ,    "V25" ,     "V26" ,     "V27" ,     "V28"    ,  "Amount"  ,
+                                             "Class" ,   "UserID" ,  "UserType" ,"AccntNum"))
+# write to test
+write.csv(test, file = "test.csv")
+read.csv("test.csv", row.names = c("Time"    , "V1"  ,     "V2"  ,     "V3"   ,    "V4"    ,   "V5"    ,   "V6"  ,     "V7"    ,   "V8",       "V9" ,     
+                                       "V10"     , "V11"   ,   "V12" ,     "V13"  ,    "V14"    ,  "V15"    ,  "V16"    ,  "V17" ,     "V18"    ,  "V19",     
+                                       "V20"   ,   "V21" ,     "V22"   ,   "V23"    ,  "V24"  ,    "V25" ,     "V26" ,     "V27" ,     "V28"    ,  "Amount"  ,
+                                       "Class" ,   "UserID" ,  "UserType" ,"AccntNum"))
+
+rm(idmaker)
 save.image('fakecolumns_1216')
