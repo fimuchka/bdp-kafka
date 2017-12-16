@@ -3,9 +3,6 @@
 #################
 
 @author: Carol (Shimeng) Lin
-################# 
-## Big Data Project: generate three fake columns 
-#################
 
 # 1. unique user id
 # 2. international/domestic
