@@ -27,6 +27,9 @@ In comparison to most messaging systems Kafka has better throughput, built-in pa
 ## Metric - Application
 Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
 
+## Sream Processing
+ * [Concept]:Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
+
 ## Project Overview
 TBD
 
