@@ -50,3 +50,24 @@
  ```bash
  docker-compose down
  ```
+
+#### Multi-broker and topic partitions
+ * Now let's create 2 brokers and multiple partitions for topics.
+ ```bash
+  docker-compose up --scale kafka=2 -d
+ ```
+ * Verify that 3 docker images are up, two kafka and one zookeeper
+ ```bash
+  docker ps -a
+ ```
+ * Now let's verify that the partitions were created as we expected
+ ```bash
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --describe --zookeeper $KAFKA_ZOOKEEPER_CONNECT --topic raw'
+ ```
+ * You should get an output of:
+
+| *Topic raw* |*PartitionCount 2* | ReplicationFactor 2*| Configs | |
+| ---:            | ---: | ---: | ---: | ---:|
+|Topic - raw|Partition - 0|Leader - 1002|Replicas - 1002,1001|Isr - 1002,1001|
+|Topic-  raw|Partition - 1|Leader- 1001|Replicas-1001,1002|Isr- 1001,1002|
+ * Now run the same command changin the topic name and observe that topic `preprocessed` has 2 partitions but no replication and topic `decision` has 1 partition and a replication factor of 2
