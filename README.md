@@ -12,7 +12,8 @@
 ## Dataset
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
  * Add three fake columns to the original dataset: unique user ID, user type (international or domestic), unique account number
-
+ * Columns appended will be used in aggregation in application.
+ 
 ## Kafka Introduction and Stories
 Apache Kafka is a distributed open-source streaming platform developed by the Apache Software Foundation written in Scala and Java. 
 
