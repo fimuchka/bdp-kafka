@@ -1,4 +1,4 @@
- # bdp-kafka
+stream processing library called Kafka Streams is available in Apache Kafka # bdp-kafka
 
 ## Quick resources:
  * [Github desktop](https://desktop.github.com/) -- easy source control via a GUI
@@ -29,7 +29,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
 
 ## Sream Processing
  * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
-
+ * Library: stream processing library called Kafka Streams is available in Apache Kafka
 ## Project Overview
 TBD
 
