@@ -1,4 +1,4 @@
-stream processing library called Kafka Streams is available in Apache Kafka # bdp-kafka
+# bdp-kafka
 
 ## Quick resources:
  * [Github desktop](https://desktop.github.com/) -- easy source control via a GUI
@@ -11,6 +11,7 @@ stream processing library called Kafka Streams is available in Apache Kafka # bd
 
 ## Dataset
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
+ * Add three fake columns to the original dataset: unique user ID, user type (international or domestic), unique account number
 
 ## Kafka Introduction and Stories
 Apache Kafka is a distributed open-source streaming platform developed by the Apache Software Foundation written in Scala and Java. 
