@@ -27,17 +27,6 @@ head(data.2)
 
 ## 1. generate unique ID
 
-#idmaker <- function(x){
-#  max.val = x*100
-#  count <- nchar(as.character(max.val))
-#  size <- paste('%0', count, 'd', sep='')
-#  lets <- toupper(sample(letters, x, replace=T))
-#  nums <- sprintf(size, sample(1:max.val)[1])
-#  ids <- paste(lets, nums, sep='')
-#  return(ids)
-#} # function end
-
-
 for (i in 1:nrow(data.2)){
   data.2$UserID[i] <- UUIDgenerate(TRUE)
 } # for loop end
