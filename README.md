@@ -24,6 +24,9 @@ Kafka aims to provide a unified, high-throughput, low-latency platform for handl
 ## Kafka's Advantages in Messaging
 In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
 
+## Metric - Application
+Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
+
 ## Project Overview
 TBD
 
