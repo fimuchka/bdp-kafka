@@ -13,6 +13,10 @@
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
  * Add three fake columns to the original dataset: unique user ID, user type (international or domestic), unique account number
  * Columns appended will be used in aggregation in application.
+ * Split the new dataset "creditcardfake" into training and test sets.
+ 
+## Model
+ * Fraud detection model using logistics regression
  
 ## Kafka Introduction and Stories
 Apache Kafka is a distributed open-source streaming platform developed by the Apache Software Foundation written in Scala and Java. 
@@ -32,8 +36,6 @@ Kafka is often used for operational monitoring data. This involves aggregating s
 ## Sream Processing
  * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
-## Project Overview
-TBD
 
 ## Docker Intallation
  * Fraud detection model
