@@ -1,7 +1,7 @@
 # bdp-kafka
 
 ## Quick resources:
- * [Github desktop](https://desktop.github.com/) -- easy source control via a GUI
+ * [Github desktop](https://desktop.github.com/) -- easy source control via a GUa
  * [Docker for Windows Pro](https://store.docker.com/editions/community/docker-ce-desktop-windows)
  * [Docker for Windows Home](https://www.docker.com/products/docker-toolbox)
  * [Docker for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
@@ -12,7 +12,7 @@
 
 ## Dataset 
  * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
- * We Added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
+ * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
  * Columns appended could be used in furture processing (i.e., aggregation) in application.
  * We split the processed dataset into training and test sets.
  * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
