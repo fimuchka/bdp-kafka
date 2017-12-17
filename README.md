@@ -89,7 +89,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  docker-compose down
  ```
 
-## Pros 
+## Kafka Pros 
  * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
  * Each message in partition is assigned a sequential ID number called "offset".
  * Fast reads and writes due to sequential reads and writes only
@@ -97,7 +97,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Does provide load balancing of consumers via partitions of topic so real parallel-processing no ifs and buts
  * No restrictions on transaction numbers unlike Kinesis
  
-## Cons
+## Kafka Cons
  * Complicated to setup cluster compared to rabbitmq
  * Dependency on Zookeeper
  * No Routing
@@ -110,7 +110,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
  
 ## Credit Analyst - Model
- * We trainend fraud detection models using machine learning techniques such as logistic regression, decision tree and random forest regression.
+ * We trained fraud detection models using machine learning techniques such as logistic regression, decision tree and random forest regression.
  
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
