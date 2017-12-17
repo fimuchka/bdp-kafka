@@ -12,8 +12,8 @@
 
 ## Dataset
  * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
- * Add three fake columns to the original dataset: unique user ID, user type (international or domestic), unique account number
- * Columns appended will be used in aggregation in application.
+ * Add three fake columns to the original dataset using R studio: unique user ID, user type (international or domestic), unique account number
+ * Columns appended will be used in furture processing (i.e., aggregation) in application.
  * Split the new dataset "creditcardfake" into training and test sets.
  * [Download datasets](https://drive.google.com/open?id=1QIeiHcDd0JGeK8jWN-GQskRY-3lvG9R8)
  
