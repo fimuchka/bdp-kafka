@@ -95,7 +95,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  docker-compose down
  ```
 ## Kafka Adoption across Industry
-![](./pic/adoption.png=50*50)
+![](./pics/adoption.png=50*50)
 
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
