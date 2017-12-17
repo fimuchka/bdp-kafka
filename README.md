@@ -29,17 +29,19 @@ Kafka aims to provide a unified, high-throughput, low-latency platform for handl
 ![](bdp-kafka/images/kafka%20structure.png)
 
 ## Terminology
+At a high level, producers send messages over the network to the Kafka cluster. Kafka cluster in turn serves them up to consumers.
  * Message: A datum to send
  * Topic: Kafka maintains messages in categories called "topic"
- * Partition: A logical division of a topic
+ * Partition: A logical division of a topic; each partition is an ordered, immutable sequence of messages; a partition log is maintained for each topic
  * Producer: An API to publish messages to Kafka topics
  * Broker: A server
  * Cluster: A Kafka cluster comprises one or more brokers
- * Consumer: A Kafka cluster comprises one or more brokers
+ * Consumer: A Kafka cluster comprises one or more brokers; a consumer is an API to consume messages from topics
  * Replication: Kafka replicates log for earch partition across servers
  
 ## Kafka's Advantages in Messaging
-In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
+ * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
+ * Each message in partition is assigned a sequential ID number called "offset".
 
 ## Metric - Application
 Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
