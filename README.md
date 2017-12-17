@@ -29,7 +29,8 @@ Kafka aims to provide a unified, high-throughput, low-latency platform for handl
 ![](bdp-kafka/images/kafka%20structure.png)
 
 ## Terminology
-At a high level, producers send messages over the network to the Kafka cluster. Kafka cluster in turn serves them up to consumers.
+At a high level, producers send messages over the network to the Kafka cluster. Kafka cluster in turn serves them up to consumers. There are many subscribers to a message. Subscribers or clients store the state of their reads. All the messages in Kafka are real-time and are retained for a specific time period. It is easy to replay messages.
+
  * Message: A datum to send
  * Topic: Kafka maintains messages in categories called "topic"
  * Partition: A logical division of a topic; each partition is an ordered, immutable sequence of messages; a partition log is maintained for each topic
