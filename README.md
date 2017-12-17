@@ -19,7 +19,7 @@
  * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
  
 ## Model
- * Fraud detection model using logistics regression
+ * Fraud detection model using logistic regression
  
 ## Kafka Stories and Introduction
 Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java. 
