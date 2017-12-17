@@ -47,7 +47,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
  
 ## Dataset 
- * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
+ * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise.
  * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
  * Columns appended could be used in furture processing (i.e., aggregation) in application.
  * We split the processed dataset into training and test sets. Test set is split into two partitions.
@@ -95,7 +95,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  docker-compose down
  ```
 ## Kafka Adoption across Industry
-![](./pics/adoption.png=50*50)
+![](./pics/adoption.png)
 
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
