@@ -34,29 +34,22 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Cluster: A Kafka cluster comprises one or more brokers
  * Consumer: A Kafka cluster comprises one or more brokers; a consumer is an API to consume messages from topics
  * Replication: Kafka replicates log for earch partition across servers
- 
-## Kafka's Advantages in Messaging
- * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
- * Each message in partition is assigned a sequential ID number called "offset".
 
-## Metric - Application
-Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
-=
 ## Stream Processing
  * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
  
+## Project Overview
+![](./pics/workflow.png) 
+
 ## Dataset 
- * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
+* The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
  * Columns appended could be used in furture processing (i.e., aggregation) in application.
  * We split the processed dataset into training and test sets. Test set is split into two partitions.
  * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
  * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
- 
-## Model
- * Fraud detection model using logistic regression
- 
-## Instructions
+
+## Installation Instructions
 
  * Install git or the github desktop client
  * Install docker with docker-compose
@@ -93,9 +86,20 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  ```bash
  docker-compose down
  ```
-## Kafka Adoption across Industry
-![](./pics/adoption.png=15*15)
 
+## Kafka's Advantages 
+ * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
+ * Each message in partition is assigned a sequential ID number called "offset".
+ 
+## Kafka's Disadvantages
+TBD
+
+## Kafka Adoption across Industry
+![](./pics/adoption.png)
+
+## Credit Analyst - Model
+ * Fraud detection model using logistic regression
+ 
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
  * [Confluent Closes $24M Series B Round For Its Apache Kafka-Based Stream Data Platform](https://techcrunch.com/2015/07/08/confluent-closes-24m-series-b-round-for-its-apache-kafka-based-stream-data-platform/?ncid=rss&utm_source=TweetDeck&utm_medium=twitter&utm_campaign=Feed%3A+Techcrunch+%28TechCrunch%29)
