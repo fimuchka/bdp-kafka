@@ -41,7 +41,7 @@ There could be many subscribers to a message. We call those subscribers "consume
 
 ## Metric - Application
 Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
-
+=
 ## Stream Processing
  * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
@@ -95,7 +95,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  docker-compose down
  ```
 ## Kafka Adoption across Industry
-![](./pics/adoption.png)
+![](./pics/adoption.png=250*250)
 
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
