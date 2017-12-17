@@ -15,6 +15,8 @@ Apache Kafka is a high-throughput distributed streaming platform and messaging s
 
 Apache Kafka was was incubated at LinkedIn to process activity stream data from their website around 2010. Kafka was subsequently open sourced in early 2011. Since then, Kafka has become an Apache open-source project. In November 2014, the original developers left LinkedIn to launch Confluent, an enterprise startup with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
 
+![](./pics/confluent.png) 
+
 Kafka is implemented as a commit log for a distributed system. In a database context, a "commit" is the application of a single transaction to the database. A commit log is a record of transactions. It's used to keep track of what's happening and help with disaster recovery. In general, all commits are written to the log before being applied. Therefore, transactions that are in flight when the server goes down can be recovered and re-applied by checking the log. 
 
 Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams.
@@ -87,19 +89,32 @@ There could be many subscribers to a message. We call those subscribers "consume
  docker-compose down
  ```
 
-## Kafka's Advantages 
+## Pros 
  * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
  * Each message in partition is assigned a sequential ID number called "offset".
+ * Fast reads and writes due to sequential reads and writes only
+ * Does one thing and one thing only i.e. to transfer messages reliably
+ * Does provide load balancing of consumers via partitions of topic so real parallel-processing no ifs and buts
+ * No restrictions on transaction numbers unlike Kinesis
  
-## Kafka's Disadvantages
-TBD
+## Cons
+ * Complicated to setup cluster compared to rabbitmq
+ * Dependency on Zookeeper
+ * No Routing
 
 ## Kafka Adoption across Industry
 ![](./pics/adoption.png)
 
+ * Kafka is applied in the real-time streaming data architectures to provide real-time analytics. Since Kafka is a fast, scalable, durable, and fault-tolerant publish-subscribe messaging system, Kafka is used in use cases where JMS, RabbitMQ, and AMQP may not even be considered due to volume and responsiveness. Kafka has higher throughput, reliability and replication characteristics which make it applicable for things like tracking service calls (tracks every call) or track IOT sensors data where a traditional MOM might not be considered.
+ * It's also appropriate for stream processing, website activity tracking, metrics collection and monitoring, log aggregation, real-time analytics, CEP, ingesting data into Spark, ingesting data into Hadoop, CQRS, replay messages, error recovery, and guaranteed distributed commit log for in-memory computing (microservices).
+ * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
+ 
 ## Credit Analyst - Model
- * Fraud detection model using logistic regression
+ * We trainend fraud detection models using machine learning techniques such as logistic regression, decision tree and random forest regression.
  
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
  * [Confluent Closes $24M Series B Round For Its Apache Kafka-Based Stream Data Platform](https://techcrunch.com/2015/07/08/confluent-closes-24m-series-b-round-for-its-apache-kafka-based-stream-data-platform/?ncid=rss&utm_source=TweetDeck&utm_medium=twitter&utm_campaign=Feed%3A+Techcrunch+%28TechCrunch%29)
+ * [What is Apache Kafka?](http://cloudurable.com/blog/what-is-kafka/index.html)
+ * [Why Kafka?](https://marutsingh.com/2016/09/12/why-kafka/)
+ * [Apache Kafka org](https://kafka.apache.org/documentation/#design)
