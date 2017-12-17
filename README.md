@@ -9,31 +9,23 @@
  * [Miniconda](https://conda.io/miniconda.html) If you need to install Python on your system
  * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
  * [Kafka project page](https://kafka.apache.org/)
-
-## Dataset 
- * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
- * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
- * Columns appended could be used in furture processing (i.e., aggregation) in application.
- * We split the processed dataset into training and test sets. Test set is split into two partitions.
- * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
- * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
- 
-## Model
- * Fraud detection model using logistic regression
  
 ## Kafka Stories and Introduction
 Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java. 
 
+Apache Kafka was was incubated at LinkedIn to process activity stream data from their website around 2010. Kafka was subsequently open sourced in early 2011. Since then, Kafka has become an Apache open-source project. In November 2014, the original developers left LinkedIn to launch Confluent, an enterprise startup with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
+
 Kafka is implemented as a commit log for a distributed system. In a database context, a "commit" is the application of a single transaction to the database. A commit log is a record of transactions. It's used to keep track of what's happening and help with disaster recovery. In general, all commits are written to the log before being applied. Therefore, transactions that are in flight when the server goes down can be recovered and re-applied by checking the log. 
-Apache Kafka was originally developed by LinkedIn to process activity stream data from their website. Kafka was subsequently open sourced in early 2011. In November 2014, several engineers who worked on Kafka at LinkedIn created a new company named Confluent with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
 
 Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams.
 
 ## Terminology
-At a high level, producers send messages over the network to the Kafka cluster. Kafka cluster in turn serves them up to consumers. There are many subscribers to a message. Subscribers or clients store the state of their reads. All the messages in Kafka are real-time and are retained for a specific time period. It is easy to replay messages.
+At a high level, producers send stream of data like messages over the network to the Kafka cluster. Streams of data are safely stored in a distributed replicated cluster. Kafka processes streams of data efficiently and in real-time. Kafka cluster in turn serves them up to consumers. 
+
+There could be many subscribers to a message. We call those subscribers "consumer group". Subscribers store the state of their reads. All the messages in Kafka are real-time and are retained for a specific time period. We could conduct real-time analytics. It is easy to replay messages.
 
  * Message: A datum to send
- * Topic: Kafka maintains messages in categories called "topic"
+ * Topic: Kafka maintains messages in "topic"
  * Partition: A logical division of a topic; each partition is an ordered, immutable sequence of messages; a partition log is maintained for each topic
  * Producer: An API to publish messages to Kafka topics
  * Broker: A server
@@ -51,7 +43,18 @@ Kafka is often used for operational monitoring data. This involves aggregating s
 ## Stream Processing
  * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
-
+ 
+## Dataset 
+ * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
+ * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
+ * Columns appended could be used in furture processing (i.e., aggregation) in application.
+ * We split the processed dataset into training and test sets. Test set is split into two partitions.
+ * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
+ * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
+ 
+## Model
+ * Fraud detection model using logistic regression
+ 
 ## Instructions
 
  * Install git or the github desktop client
@@ -89,3 +92,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  ```bash
  docker-compose down
  ```
+## Kafka Adoption across Industry
+
+## References
+ * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
