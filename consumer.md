@@ -6,9 +6,9 @@
     * Multiple subscribers—>multiple consumer groups
   * Load Share
      * Load balancing is achieved by having each consumer in consumer groups as an exclusive consumer of a fair share of partitions.
-            * Consumer membership within a consumer group is handled by Kafka protocol dynamically
-            * Each new consumer gets a share of partitions
-            * If a consumer dies its partitions split among remaining living consumers.
+     * Consumer membership within a consumer group is handled by Kafka protocol dynamically
+     * Each new consumer gets a share of partitions
+     * If a consumer dies its partitions split among remaining living consumers.
   * Fail over
      * Consumers reports to Kafka broker when they successfully processed a record, advances the offset
      * Consumer fails before sending commit offset, a different consumer continues from the last committed offset.
