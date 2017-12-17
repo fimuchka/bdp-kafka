@@ -16,7 +16,7 @@
  * Columns appended could be used in furture processing (i.e., aggregation) in application.
  * We split the processed dataset into training and test sets. Test set is split into two partitions.
  * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
- * [Download the processed datasets](https://drive.google.com/open?id=1QIeiHcDd0JGeK8jWN-GQskRY-3lvG9R8)
+ * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
  
 ## Model
  * Fraud detection model using logistics regression
