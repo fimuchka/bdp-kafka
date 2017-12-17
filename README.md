@@ -1,7 +1,7 @@
 # bdp-kafka
 
 ## Quick resources:
- * [Github desktop](https://desktop.github.com/) -- easy source control via a GUI
+ * [Github desktop](https://desktop.github.com/) -- easy source control via a GUa
  * [Docker for Windows Pro](https://store.docker.com/editions/community/docker-ce-desktop-windows)
  * [Docker for Windows Home](https://www.docker.com/products/docker-toolbox)
  * [Docker for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
@@ -10,8 +10,47 @@
  * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
  * [Kafka project page](https://kafka.apache.org/)
 
-## Dataset
- * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
+## Dataset 
+ * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
+ * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
+ * Columns appended could be used in furture processing (i.e., aggregation) in application.
+ * We split the processed dataset into training and test sets.
+ * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
+ * [Download the processed datasets](https://drive.google.com/open?id=1QIeiHcDd0JGeK8jWN-GQskRY-3lvG9R8)
+ 
+## Model
+ * Fraud detection model using logistics regression
+ 
+## Kafka Stories and Introduction
+Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java. 
+
+Kafka is implemented as a commit log for a distributed system. In a database context, a "commit" is the application of a single transaction to the database. A commit log is a record of transactions. It's used to keep track of what's happening and help with disaster recovery. In general, all commits are written to the log before being applied. Therefore, transactions that are in flight when the server goes down can be recovered and re-applied by checking the log. 
+Apache Kafka was originally developed by LinkedIn to process activity stream data from their website. Kafka was subsequently open sourced in early 2011. In November 2014, several engineers who worked on Kafka at LinkedIn created a new company named Confluent with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
+
+Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams.
+
+## Terminology
+At a high level, producers send messages over the network to the Kafka cluster. Kafka cluster in turn serves them up to consumers. There are many subscribers to a message. Subscribers or clients store the state of their reads. All the messages in Kafka are real-time and are retained for a specific time period. It is easy to replay messages.
+
+ * Message: A datum to send
+ * Topic: Kafka maintains messages in categories called "topic"
+ * Partition: A logical division of a topic; each partition is an ordered, immutable sequence of messages; a partition log is maintained for each topic
+ * Producer: An API to publish messages to Kafka topics
+ * Broker: A server
+ * Cluster: A Kafka cluster comprises one or more brokers
+ * Consumer: A Kafka cluster comprises one or more brokers; a consumer is an API to consume messages from topics
+ * Replication: Kafka replicates log for earch partition across servers
+ 
+## Kafka's Advantages in Messaging
+ * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
+ * Each message in partition is assigned a sequential ID number called "offset".
+
+## Metric - Application
+Kafka is often used for operational monitoring data. This involves aggregating statistics from distributed applications to produce centralized feeds of operational data. 
+
+## Stream Processing
+ * Concept: Many users of Kafka process data in processing pipelines consisting of multiple stages, where raw input data is consumed from Kafka topics and then aggregated, enriched, or otherwise transformed into new topics for further consumption or follow-up processing.
+ * Library: stream processing library called Kafka Streams is available in Apache Kafka
 
 ## Instructions
 
