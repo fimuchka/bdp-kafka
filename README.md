@@ -10,11 +10,12 @@
  * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
  * [Kafka project page](https://kafka.apache.org/)
 
-## Dataset
- * [Credit card fraud](https://www.kaggle.com/dalpozz/creditcardfraud) 
- * Add three fake columns to the original dataset using R studio: unique user ID, user type (international or domestic), unique account number
- * Columns appended will be used in furture processing (i.e., aggregation) in application.
- * Split the new dataset "creditcardfake" into training and test sets.
+## Dataset 
+ * The datasets contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
+ * We Added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic), unique account number
+ * Columns appended could be used in furture processing (i.e., aggregation) in application.
+ * We split the processed dataset into training and test sets.
+ * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
  * [Download datasets](https://drive.google.com/open?id=1QIeiHcDd0JGeK8jWN-GQskRY-3lvG9R8)
  
 ## Model
