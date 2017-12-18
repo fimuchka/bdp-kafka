@@ -43,7 +43,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
  
 ## Project Overview
-![](./pics/workflow_1217.png) 
+![](./pics/workflow_v2.png) 
 
 ## Dataset - Credit Card Transactions
  * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
