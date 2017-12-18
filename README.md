@@ -112,7 +112,10 @@ There could be many subscribers to a message. We call those subscribers "consume
  * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
  
 ## Credit Analyst - Model
- * We trained fraud detection models using machine learning techniques such as logistic regression, decision tree and random forest regression.
+ * We trained fraud detection models using machine learning techniques such as logistic regression, random forest regression and decision tree.
+  * [Logistic Regression](https://github.com/fimuchka/bdp-kafka/blob/feature/intallation/Fraud%20Detection.ipynb)
+  * [Random Forest](https://github.com/fimuchka/bdp-kafka/blob/feature/Lizzy1/creditcard%20fraud%20detection%20model.ipynb)
+  * [Decision Tree](https://github.com/fimuchka/bdp-kafka/blob/feature/jfan33/fraudDetect1-Jessie.py)
  
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
