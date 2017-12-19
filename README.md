@@ -84,6 +84,10 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  ```bash
  docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic raw'
  ```
+ * Now let's see one of the messages
+ ```bash
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic raw --from-beginning --max-messages 1'
+ ```
  * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
  * To stop the docker containers:
  ```bash
@@ -110,3 +114,13 @@ Kafka is often used for operational monitoring data. This involves aggregating s
 |Topic - raw|Partition - 0|Leader - 1002|Replicas - 1002,1001|Isr - 1002,1001|
 |Topic-  raw|Partition - 1|Leader- 1001|Replicas-1001,1002|Isr- 1001,1002|
  * Now run the same command changin the topic name and observe that topic `preprocessed` has 2 partitions but no replication and topic `decision` has 1 partition and a replication factor of 2
+
+#### Kafka streaming
+ * Get the address of one of the brokers so we can interact with it
+ ```bash
+ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' bdpkafka_kafka_1
+ ```
+ * Use the result of the above as the <container_ip> in the following commands. Start the preprocessing stream
+ ```bash
+ docker exec -it bdpkafka_kafka_2 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming <container_ip>:9092'
+ ```
