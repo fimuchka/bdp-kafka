@@ -76,7 +76,7 @@ for name, clf in zip(names, classifiers):
     print(name, ':', format(score, '.3f'), '|time elapsed:', format((end_time - start_time), '.2f'), '\n')
 
 # Pickling model
-filename = "fraudDetect.pkl"
+filename = "model1.pkl"
 pickle.dump(clf, open(filename, 'wb'))
 
 # Load model for reuse

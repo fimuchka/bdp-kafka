@@ -68,7 +68,7 @@ cm_2_dt = confusion_matrix(y_test_2, y_pred_dt_2)
 print cm_2_dt
 
 # Pickling model
-filename = "fraudDetect1.pkl"
+filename = "Fraud Detection.pkl"
 pickle.dump(clf, open(filename, 'wb'))
 
 # Load model for reuse
