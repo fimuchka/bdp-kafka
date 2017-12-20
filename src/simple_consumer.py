@@ -4,10 +4,8 @@ This script
 """
 import argparse
 import json
-import pprint
 import logging
 import sys
-import time
 import multiprocessing
 import random
 import os
@@ -15,14 +13,15 @@ import os
 
 from sklearn.externals import joblib
 from kafka import KafkaConsumer, KafkaProducer
-#from kafka.errors import KafkaError
+# from kafka.errors import KafkaError
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger()
 
 
-def consumer(kafka_broker, read_topic, write_topic, model_path):
-    """"""
+def analyzer(kafka_broker, read_topic, write_topic, model_path):
+    """Continuously read from a Kafka topic, use a model to predict
+    a value and then write that value to another Kafka topic"""
     consumer = KafkaConsumer(read_topic,
                              auto_offset_reset='earliest',
                              key_deserializer= lambda x: x.decode("utf-8"),
@@ -40,24 +39,26 @@ def consumer(kafka_broker, read_topic, write_topic, model_path):
             producer.send(write_topic, key=msg.key, value={"flag": bool(random.getrandbits(1))})
             producer.flush()
     except (KeyboardInterrupt, SystemExit):
-        pass
+        logger.info("KeyboardInterrupt")
     finally:
+        logger.info("Closing producer and consumer")
         consumer.close()
         producer.close()
 
 
 def main(kafka_broker, read_topic, write_topic, folder_path):
-    """"""
-    consumers = []
+    """Launch as many processes to read from a Kafka topic as we
+    have models in the folder_path"""
+    analyzers = []
     for i, name in enumerate(os.listdir(folder_path)):
-        p = multiprocessing.Process(target=consumer, name="Consumer {}".format(i),
+        p = multiprocessing.Process(target=analyzer, name="Consumer {}".format(i),
                                     args=(kafka_broker, read_topic, write_topic,
                                           os.path.join(folder_path, name)))
-        consumers.append(p)
+        analyzers.append(p)
         logger.info("Starting worker {}".format(i))
         p.start()
-    for c in consumers:
-        c.join()
+    for a in analyzers:
+        a.join()
         logger.info("Consumer finished with code {}".format(c.exitcode))
 
 
