@@ -5,7 +5,7 @@ Apache Kafka is a high-throughput distributed streaming platform and messaging s
 
 Apache Kafka was incubated at LinkedIn to process activity stream data from their website around 2010. Kafka was subsequently open sourced in early 2011. Since then, Kafka has become an Apache open-source project. In November 2014, the original developers left LinkedIn to launch Confluent, an enterprise startup with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
 
-![](./pics/confluent.png) 
+![](./pics/confluent_v2.png) 
 
 Kafka is implemented as a commit log for a distributed system. In a database context, a "commit" is the application of a single transaction to the database. A commit log is a record of transactions. It's used to keep track of what's happening and help with disaster recovery. In general, all commits are written to the log before being applied. Therefore, transactions that are in flight when the server goes down can be recovered and re-applied by checking the log. 
 
@@ -16,7 +16,7 @@ Current users of the technology include the likes of LinkedIn, Netflix, Uber, Ci
 ## Kafka Adoption across Industry
  * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
  
-![](./pics/adoption.png)
+![](./pics/adoption_v2.png)
 
 ## Terminology
 
@@ -38,7 +38,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
  
 ## Project Overview
-![](./pics/workflow_v2.png) 
+![](./pics/workflow_v3.png) 
 
 ## Dataset - Credit Card Transactions
  * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
