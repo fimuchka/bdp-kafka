@@ -81,5 +81,5 @@ pickle.dump(clf, open(filename, 'wb'))
 
 # Load model for reuse
 loaded_model = pickle.load(open(filename, 'rb'))
-result = loaded_model.score(X_test, y_test)
+result = loaded_model.predict(X_test, y_test)
 print(result)
