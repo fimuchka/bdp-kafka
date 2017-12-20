@@ -13,3 +13,4 @@ ________________________________________________________________________________
     * Inner Joins: Emits a record when both sources have a key
     * Outer Joins: Always emits a record. If one source doesn't exist for a key, it's set to null
     * Left Joins: Emits for every record in the left stream. If the same key doesn't exist on the right hand stream, the right hand record is set to null
+ * A gotcha is that topics that are used for joins between must have the same number of partitions. This is because of the way keys need to be distributed
