@@ -1,27 +1,20 @@
-# bdp-kafka
-
-## Quick resources:
- * [Github desktop](https://desktop.github.com/) -- easy source control via a GUa
- * [Docker for Windows Pro](https://store.docker.com/editions/community/docker-ce-desktop-windows)
- * [Docker for Windows Home](https://www.docker.com/products/docker-toolbox)
- * [Docker for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
- * [Kafka Docker](https://hub.docker.com/r/wurstmeister/kafka/) Docker images with instructions on how to install
- * [Miniconda](https://conda.io/miniconda.html) If you need to install Python on your system
- * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
- * [Kafka project page](https://kafka.apache.org/)
- 
 ## Kafka Stories and Introduction
-Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java. 
+Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java.
 
-Apache Kafka was was incubated at LinkedIn to process activity stream data from their website around 2010. Kafka was subsequently open sourced in early 2011. Since then, Kafka has become an Apache open-source project. In November 2014, the original developers left LinkedIn to launch Confluent, an enterprise startup with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
+Apache Kafka was incubated at LinkedIn to process activity stream data from their website around 2010. Kafka was subsequently open sourced in early 2011. Since then, Kafka has become an Apache open-source project. In November 2014, the original developers left LinkedIn to launch Confluent, an enterprise startup with a focus on Kafka. According to a Quora post from 2014, Jay Kreps seems to have named it after the author Franz Kafka. Kreps chose to name the system after an author because it is "a system optimized for writing", and he liked Kafka's work. 
 
-![](./pics/confluent.png) 
+![](./pics/confluent_v2.png) 
 
 Kafka is implemented as a commit log for a distributed system. In a database context, a "commit" is the application of a single transaction to the database. A commit log is a record of transactions. It's used to keep track of what's happening and help with disaster recovery. In general, all commits are written to the log before being applied. Therefore, transactions that are in flight when the server goes down can be recovered and re-applied by checking the log. 
 
-Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams.
+Kafka aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. Kafka could also connect to external systems for data import or export via Kafka Connect and provides Kafka Streams. Kafka provides at-least-once and exactly once delivery gurantees.
 
 Current users of the technology include the likes of LinkedIn, Netflix, Uber, Cisco and Goldman Sachs. Its real-time capabilities make it an ideal solution for emerging Internet of Things services that have to ingest large amounts of data or even large online gaming services.
+
+## Kafka Adoption across Industry
+ * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
+ 
+![](./pics/adoption_v2.png)
 
 ## Terminology
 
@@ -35,7 +28,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Producer: An API to publish messages to Kafka topics
  * Broker: A server
  * Cluster: A Kafka cluster comprises one or more brokers
- * Consumer: A Kafka cluster comprises one or more brokers; a consumer is an API to consume messages from topics
+ * Consumer: A consumer is an API to consume messages from topics
  * Replication: Kafka replicates log for earch partition across servers
 
 ## Stream Processing
@@ -43,18 +36,26 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Library: stream processing library called Kafka Streams is available in Apache Kafka
  
 ## Project Overview
-![](./pics/workflow_v2.png) 
+![](./pics/workflow_v3.png) 
 
 ## Dataset - Credit Card Transactions
  * The dataset contains transactions made by credit cards in September 2013 by european cardholders. This dataset presents transactions that occurred in two days, where we have 492 frauds out of 284,807 transactions. Features V1, V2, ... V28 are principal components obtained with PCA. The features which have not been transformed with PCA are 'Time' and 'Amount'. Feature 'Time' contains the seconds elapsed between each transaction and the first transaction in the dataset. The feature 'Amount' is the transaction amount. Feature 'Class' is the response variable and it takes value 1 in case of fraud and 0 otherwise. 
- * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number
- * Columns appended could be used in furture processing (i.e., aggregation) in application.
+ * We added three fake columns to the Kaggle dataset using R studio: unique user ID, user type (international or domestic) and unique account number.
+ * Columns appended could be used in further processing (i.e., aggregation) in application.
  * We split the processed dataset into training and test sets. Test set is split into two partitions. The screenshot shows a sample from the partitions.
  ![](./pics/data.png) 
  * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud) 
  * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
 
-## Installation Instructions
+## Quick resources:
+ * [Github desktop](https://desktop.github.com/) -- easy source control via a GUa
+ * [Docker for Windows Pro](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+ * [Docker for Windows Home](https://www.docker.com/products/docker-toolbox)
+ * [Docker for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+ * [Kafka Docker](https://hub.docker.com/r/wurstmeister/kafka/) Docker images with instructions on how to install
+ * [Miniconda](https://conda.io/miniconda.html) If you need to install Python on your system
+ * [Kafka Docker Repository](https://github.com/wurstmeister/kafka-docker) -- Repository for up to date kafka docker images
+ * [Kafka project page](https://kafka.apache.org/)
 
 ### Installation
  * Install git or the github desktop client
@@ -93,7 +94,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  ```bash
  docker exec bdpkafka_python_1 python /bdp/python/activity_producer.py /tmp/creditcard.csv
  ```
- * Lets verify the messages are there. This involves once again running a command with the kafka  docker container.
+ * Let's verify the messages are there. This involves once again running a command with the kafka  docker container.
  ```bash
  docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic raw'
  ```
@@ -125,7 +126,7 @@ There could be many subscribers to a message. We call those subscribers "consume
 | ---:            | ---: | ---: | ---: | ---:|
 |Topic - raw|Partition - 0|Leader - 1002|Replicas - 1002,1001|Isr - 1002,1001|
 |Topic-  raw|Partition - 1|Leader- 1001|Replicas-1001,1002|Isr- 1001,1002|
- * Now run the same command changin the topic name and observe that topic `preprocessed` has 2 partitions but no replication and topic `decision` has 1 partition and a replication factor of 2
+ * Now run the same command changing the topic name and observe that topic `preprocessed` has 2 partitions but no replication and topic `decision` has 1 partition and a replication factor of 2
 
 #### Kafka streaming
  * Get the address of one of the brokers so we can interact with it
@@ -136,9 +137,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  ```bash
  docker exec -it bdpkafka_kafka_2 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming <container_ip>:9092'
  ```
- 
- 
-=======
+
 ## Kafka Pros 
  * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
  * Each message in partition is assigned a sequential ID number called "offset".
@@ -148,22 +147,13 @@ There could be many subscribers to a message. We call those subscribers "consume
  * No restrictions on transaction numbers unlike Kinesis
  
 ## Kafka Cons
- * Complicated to setup cluster compared to rabbitmq
+ * Complicated to set up cluster compared to rabbitmq
  * Dependency on Zookeeper
  * No Routing
-
-## Kafka Adoption across Industry
-![](./pics/adoption.png)
-
- * Kafka is applied in the real-time streaming data architectures to provide real-time analytics. Since Kafka is a fast, scalable, durable, and fault-tolerant publish-subscribe messaging system, Kafka is used in use cases where JMS, RabbitMQ, and AMQP may not even be considered due to volume and responsiveness. Kafka has higher throughput, reliability and replication characteristics which make it applicable for things like tracking service calls (tracks every call) or track IOT sensors data where a traditional MOM might not be considered.
- * It's also appropriate for stream processing, website activity tracking, metrics collection and monitoring, log aggregation, real-time analytics, CEP, ingesting data into Spark, ingesting data into Hadoop, CQRS, replay messages, error recovery, and guaranteed distributed commit log for in-memory computing (microservices).
- * LinkedIn uses Kafka to track activity data and operational metrics. Twitter uses it as part of Storm to provide a stream processing infrastructure. Square uses Kafka as a bus to move all system events to various Square data centers (logs, custom events, metrics, and so on), outputs to Splunk, Graphite (dashboards), and to implement an Esper-like/CEP alerting systems.
  
 ## Credit Analyst - Model
- * Credit analysts could use machine learning techniques to train transaction data to identify fraudulent. 
-  * [Logistic Regression](https://github.com/fimuchka/bdp-kafka/blob/feature/intallation/Fraud%20Detection.ipynb)
-  * [Random Forest](https://github.com/fimuchka/bdp-kafka/blob/feature/Lizzy1/creditcard%20fraud%20detection%20model.ipynb)
-  * [Decision Tree](https://github.com/fimuchka/bdp-kafka/blob/feature/jfan33/fraudDetect1-Jessie.py)
+ * Credit analysts could use machine learning techniques to train transaction data to identify fraudulents. 
+  * [Logistic Regression and Decision Tree](https://github.com/fimuchka/bdp-kafka/blob/feature/jfan33/Fraud%20Detection.py)
  
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
