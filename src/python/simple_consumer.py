@@ -36,7 +36,10 @@ def analyzer(kafka_broker, read_topic, write_topic, model_path):
             features = {k: v for k,v in msg.value.items() if k not in
                         ['Time', 'AccntNum', 'Class', 'UserType', 'UserID']}
             # do stuff with it and then pass to model
-            producer.send(write_topic, key=msg.key, value={"flag": bool(random.getrandbits(1))})
+            if msg.key == None:
+                producer.send(write_topic, key=value["UserID"], value={"flag": bool(random.getrandbits(1))})
+            else:
+                producer.send(write_topic, key=msg.key, value={"flag": bool(random.getrandbits(1))})
             producer.flush()
     except (KeyboardInterrupt, SystemExit):
         logger.info("KeyboardInterrupt")

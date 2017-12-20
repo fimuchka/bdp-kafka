@@ -74,7 +74,16 @@ There could be many subscribers to a message. We call those subscribers "consume
   docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --list --zookeeper $KAFKA_ZOOKEEPER_CONNECT'
  ```
  * You should see following topics listed: `raw`, `preprocessed`, `decision`, `flagged`
+ * Now let's verify that the partitions were created as we expected
+ ```bash
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --describe --zookeeper $KAFKA_ZOOKEEPER_CONNECT --topic raw'
+ ```
+ * You should get an output of:
 
+| *Topic raw* |*PartitionCount 2* | ReplicationFactor 2*| Configs | |
+| ---:            | ---: | ---: | ---: | ---:|
+|Topic - raw|Partition - 0|Leader - 1002|Replicas - 1002,1001|Isr - 1002,1001|
+|Topic-  raw|Partition - 1|Leader- 1001|Replicas-1001,1002|Isr- 1001,1002|
  * To stop the docker containers:
   ```bash
   docker-compose down
@@ -102,43 +111,71 @@ There could be many subscribers to a message. We call those subscribers "consume
  ```bash
   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic raw  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
  ```
+ * Note that the key of the message is null
 
 ### Simple consumer
- * Now we're going to test out a basic consumer. This consumer is also written in Python.
+ * Now we're going to test out a basic consumer. This consumer is also written in Python and is
+ available in `src/python/simple_consumer.py`. This is a multiprocess application that by default
+ launches 2 consumers that consume from the `preprocessed` topic and put their results into the `decision`
+ topic. Note that the 2 consumers aren't the same consumer group, so they're not merely reading different
+ partitions of the topic but are each consuming all the messages in the topic.
+ * If you have shut down the docker containers since the last step (Simple Producer) you need to run
+ all the commands there first in order to seed messages into the topic. Otherwise the Simple Consumer
+ will do nothing
+ * To start the consumer:
+ ```bash
+    docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py --topic raw
+ ```
+ * You can now verify that the consumers have processed the topic.
+ ```bash
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic decision'
+ ```
+ * And let's take a look at one of the messages
+ ```bash
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic decision  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
+ ```
+ * Note that we have a key for the messages in this topic
 
-#### Multi-broker and topic partitions
- * Now let's create 2 brokers and multiple partitions for topics.
+### Kafka streaming
+ * Now we're going to look at Kafka Streaming. As this is a native Kafka library that's written in Java, the application
+ we've written is also in Java and can be found in `src/main/java/com.bdpkafka/KafkaStreaming.java`. The addition of a
+ streaming component changes the flow of the application. We're going to use the simple producer we went over above
+ to write messages to the raw topic. The Kafka streaming application will then preprocess them to obfuscate the account id
+ and also to filter the transactions for any accounts that were marked as flagged. Then it will write these obfuscated and
+ filtered messages to the preprocessed topic. The two consumers we ran above will now read from the preprocessed topic and in
+ default mode will both make a separate decision as to whether a transaction should be flagged and will write out the result
+ to the decision topic. In effect, you'll have two decisions per transaction, both with the same key (UserId). Another stream
+ (also declared in the same Java file) will then group and filter the decisions to insert flagged accounts into a `flagged`
+ topic. This `flagged` topic is used to filter during preprocessing.
+ * Compile and copy the our jar to the Kafka broker. Normally you would not run a streaming application on the broker but within
+ our Docker configuration it's the simpler option.
  ```bash
-  docker-compose up --scale kafka=2 -d
+   mvn package
+   docker cp target/bdp-kafka-0.0.1.jar bdpkafka_kafka_2_1:/opt/kafka/libs/bdp-kafka-0.0.1.jar
  ```
- * Verify that 3 docker images are up, two kafka and one zookeeper
+ * Start the python consumer and the java KafkaStream
  ```bash
-  docker ps -a
- ```
- * Now let's verify that the partitions were created as we expected
+     docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py
+     docker exec bdpkafka_kafka_2_1 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming'
+  ```
+ * Execute the python producer
  ```bash
-  docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --describe --zookeeper $KAFKA_ZOOKEEPER_CONNECT --topic raw'
+  docker exec bdpkafka_python_1 python /bdp/python/activity_producer.py /tmp/creditcard.csv
  ```
- * You should get an output of:
+ * You can now verify that the streaming application obfuscated and filtered and that we had decisions
+  ```bash
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic preprocessed'
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic decision'
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic flagged'
+  ```
+ * Let's take a look at the individual messages in the topics
+ ```bash
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic preprocessed --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic decision  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
+   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic flagged  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
+  ```
 
-| *Topic raw* |*PartitionCount 2* | ReplicationFactor 2*| Configs | |
-| ---:            | ---: | ---: | ---: | ---:|
-|Topic - raw|Partition - 0|Leader - 1002|Replicas - 1002,1001|Isr - 1002,1001|
-|Topic-  raw|Partition - 1|Leader- 1001|Replicas-1001,1002|Isr- 1001,1002|
- * Now run the same command changin the topic name and observe that topic `preprocessed` has 2 partitions but no replication and topic `decision` has 1 partition and a replication factor of 2
-
-#### Kafka streaming
- * Get the address of one of the brokers so we can interact with it
- ```bash
- docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' bdpkafka_kafka_1
- ```
- * Use the result of the above as the <container_ip> in the following commands. Start the preprocessing stream
- ```bash
- docker exec -it bdpkafka_kafka_2 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming <container_ip>:9092'
- ```
  
- 
-=======
 ## Kafka Pros 
  * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
  * Each message in partition is assigned a sequential ID number called "offset".
