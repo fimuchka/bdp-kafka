@@ -8,7 +8,6 @@ import time
 import pickle
 
 '''
-# Models abandoned
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier, Perceptron
