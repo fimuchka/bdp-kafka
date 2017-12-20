@@ -1,5 +1,3 @@
-# bdp-kafka
-
 ## Kafka Stories and Introduction
 Apache Kafka is a high-throughput distributed streaming platform and messaging system developed by the Apache Software Foundation written in Scala and Java.
 
