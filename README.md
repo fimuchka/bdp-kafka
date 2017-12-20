@@ -54,9 +54,9 @@ Kafka is often used for operational monitoring data. This involves aggregating s
 
 ## Instructions
 
+### Installation
  * Install git or the github desktop client
  * Install docker with docker-compose
- * If you need to install python 3, you can use Miniconda above
  * Clone this repository
  * Download the dataset and unzip it
  * Start the docker containers
@@ -71,28 +71,38 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  ```bash
   docker exec bdpkafka_kafka_1 bash -c 'kafka-topics.sh  --list --zookeeper $KAFKA_ZOOKEEPER_CONNECT'
  ```
- * You should see 3 topics listed: `raw`, `preprocessed`, `decision`
+ * You should see following topics listed: `raw`, `preprocessed`, `decision`, `flagged`
+
+ * To stop the docker containers:
+  ```bash
+  docker-compose down
+  ```
+
+ ### Simple Producer
+ * The first thing we'll test out is a simple Producer. This is coded in Python and uses a python
+ kafka library. The producer will read in a csv file and will send each line as a message to a Kafka
+ topic. The source code is commented and is in `src/python/activity_producer.py`
+ * Start the docker containers as done during installation
  * Copy the dataset we're using to seed Kafka to the python container
  ```bash
  docker cp <path_to_downloaded_and_unzipped_dataset> bdpkafka_python_1:/tmp/creditcard.csv
  ```
  * Run the script to push data to the Kafka brokers
  ```bash
- docker exec bdpkafka_python_1 python /bdp/activity_producer.py /tmp/creditcard.csv
+ docker exec bdpkafka_python_1 python /bdp/python/activity_producer.py /tmp/creditcard.csv
  ```
  * Lets verify the messages are there. This involves once again running a command with the kafka  docker container.
  ```bash
  docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic raw'
  ```
+ * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
  * Now let's see one of the messages
  ```bash
   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic raw  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
  ```
- * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
- * To stop the docker containers:
- ```bash
- docker-compose down
- ```
+
+### Simple consumer
+ * Now we're going to test out a basic consumer. This consumer is also written in Python.
 
 #### Multi-broker and topic partitions
  * Now let's create 2 brokers and multiple partitions for topics.
