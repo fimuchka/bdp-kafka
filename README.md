@@ -175,7 +175,7 @@ There could be many subscribers to a message. We call those subscribers "consume
    docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic flagged  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
   ```
 
- 
+
 ## Kafka Pros 
  * In comparison to most messaging systems Kafka has better throughput, built-in partitioning, replication, and fault-tolerance which makes it a good solution for large scale message processing applications.
  * Each message in partition is assigned a sequential ID number called "offset".
