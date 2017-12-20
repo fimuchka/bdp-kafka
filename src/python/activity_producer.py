@@ -25,15 +25,18 @@ def read_data(file_path):
 
 
 def main(kafka_broker, kafka_topic, file_path):
-    """Parse the csv and send every line to the kafka topic"""
+    """Parse the csv and send every line to the kafka topic as a json dict of
+    column headers and values"""
     producer = KafkaProducer(bootstrap_servers=kafka_broker,
                              value_serializer=lambda x: json.dumps(x).encode(
                                  "utf-8"))
     logger.info("Reading messages from csv")
     for item in read_data(file_path):
-        producer.send(kafka_topic, item)
+        # Important that both key and value are byte arrays
+        producer.send(kafka_topic, value=item)
  
     logger.info("Sending all messages to Kafka")
+    producer.flush()
     producer.close()
     pprint.pprint(producer.metrics())
 
