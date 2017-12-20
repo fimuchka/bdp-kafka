@@ -208,4 +208,6 @@ There could be many subscribers to a message. We call those subscribers "consume
  * [What is Apache Kafka?](http://cloudurable.com/blog/what-is-kafka/index.html)
  * [Why Kafka?](https://marutsingh.com/2016/09/12/why-kafka/)
  * [Apache Kafka org](https://kafka.apache.org/documentation/#design)
-
+ * [Kafka streaming](https://kafka.apache.org/10/documentation/streams/core-concepts)
+ * [Kafka joins](https://blog.codecentric.de/en/2017/02/crossing-streams-joins-apache-kafka/)
+ * [Kafka streaming tutorial](http://codingjunkie.net/kafka-streams-part2/)
