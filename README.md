@@ -186,4 +186,3 @@ There could be many subscribers to a message. We call those subscribers "consume
  ![](./pics/data.png)
  * [Kaggle Dataset "Credit Card Transaction"](https://www.kaggle.com/dalpozz/creditcardfraud)
  * [Download the processed datasets](https://drive.google.com/open?id=1PldjXboPsbWmAhjWxlDUPwLF8_J5i_ka)
-=======
