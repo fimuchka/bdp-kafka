@@ -153,9 +153,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  
 ## Credit Analyst - Model
  * Credit analysts could use machine learning techniques to train transaction data to identify fraudulents. 
-  * [Logistic Regression](https://github.com/fimuchka/bdp-kafka/blob/feature/intallation/Fraud%20Detection.ipynb)
-  * [Random Forest](https://github.com/fimuchka/bdp-kafka/blob/feature/Lizzy1/creditcard%20fraud%20detection%20model.ipynb)
-  * [Decision Tree](https://github.com/fimuchka/bdp-kafka/blob/feature/jfan33/fraudDetect1-Jessie.py)
+  * [Logistic Regression and Decision Tree](https://github.com/fimuchka/bdp-kafka/blob/feature/jfan33/Fraud%20Detection.py)
  
 ## References
  * [A distributed streaming platform](https://www.slideshare.net/ConfluentInc/apache-kafkaa-distributed-streaming-platform)
