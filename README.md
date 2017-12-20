@@ -86,7 +86,7 @@ Kafka is often used for operational monitoring data. This involves aggregating s
  ```
  * Now let's see one of the messages
  ```bash
-  docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic raw --from-beginning --max-messages 1'
+  docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic raw  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
  ```
  * You should see the number of messages in the topic, which should be one less than the number of lines in your csv file(i.e. minus the header)
  * To stop the docker containers:

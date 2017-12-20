@@ -31,9 +31,11 @@ def main(kafka_broker, kafka_topic, file_path):
                                  "utf-8"))
     logger.info("Reading messages from csv")
     for item in read_data(file_path):
-        producer.send(kafka_topic, item)
+        # Import that both key and value are byte arrays
+        producer.send(kafka_topic, value=item)
  
     logger.info("Sending all messages to Kafka")
+    producer.flush()
     producer.close()
     pprint.pprint(producer.metrics())
 
