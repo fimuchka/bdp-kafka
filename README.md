@@ -122,11 +122,11 @@ There could be many subscribers to a message. We call those subscribers "consume
  * If you have shut down the docker containers since the last step (Simple Producer) you need to run
  all the commands there first in order to seed messages into the topic. Otherwise the Simple Consumer
  will do nothing
- * To start the consumer:
+ * To start the consumer--- open up another terminal, as the consumer is forever running. So in one terminal do:
  ```bash
-    docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py --topic raw
+    docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py --topic raw /bdp/models/
  ```
- * You can now verify that the consumers have processed the topic.
+ * In another terminal--You can now verify that the consumers have processed the topic.
  ```bash
   docker exec bdpkafka_kafka_1 bash -c 'kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list kafka:9092 --topic decision'
  ```
@@ -135,6 +135,7 @@ There could be many subscribers to a message. We call those subscribers "consume
   docker exec bdpkafka_kafka_1 bash -c 'kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic decision  --property print.key=true --property key.separator="|--|" --from-beginning --max-messages 1'
  ```
  * Note that we have a key for the messages in this topic
+ * To stop the consumer, press ctrl-c in the terminal where you started it
 
 ### Kafka streaming
  * Now we're going to look at Kafka Streaming. As this is a native Kafka library that's written in Java, the application
@@ -148,14 +149,14 @@ There could be many subscribers to a message. We call those subscribers "consume
  (also declared in the same Java file) will then group and filter the decisions to insert flagged accounts into a `flagged`
  topic. This `flagged` topic is used to filter during preprocessing.
  * Compile and copy the our jar to the Kafka broker. Normally you would not run a streaming application on the broker but within
- our Docker configuration it's the simpler option.
+ our Docker configuration it's the simpler option. You can also download the jar from the releases in Github
  ```bash
    mvn package
    docker cp target/bdp-kafka-0.0.1.jar bdpkafka_kafka_2_1:/opt/kafka/libs/bdp-kafka-0.0.1.jar
  ```
- * Start the python consumer and the java KafkaStream
+ * Start the python consumer in one terminal and the java KafkaStream in another terminal
  ```bash
-     docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py
+     docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py /bdp/models/
      docker exec bdpkafka_kafka_2_1 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming'
   ```
  * Execute the python producer
