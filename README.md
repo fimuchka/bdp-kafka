@@ -149,7 +149,7 @@ There could be many subscribers to a message. We call those subscribers "consume
 ## Kafka Cons
  * Complicated to set up cluster compared to rabbitmq
  * Dependency on Zookeeper
- * No Routing
+ * No Routing (selecting a path for traffic in a network, or between or across multiple networks)
  
 ## Credit Analyst - Model
  * Credit analysts could use machine learning techniques to train transaction data to identify fraudulents. 
