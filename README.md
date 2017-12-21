@@ -157,7 +157,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Start the python consumer in one terminal and the java KafkaStream in another terminal
  ```bash
      docker exec bdpkafka_python_1 python /bdp/python/simple_consumer.py /bdp/models/
-     docker exec bdpkafka_kafka_2_1 bash -c 'KAFKA_DEBUG=t /opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming'
+     docker exec bdpkafka_kafka_2_1 bash -c '/opt/kafka/bin/kafka-run-class.sh com.bdpkafka.KafkaStreaming'
   ```
  * Execute the python producer
  ```bash
