@@ -24,7 +24,7 @@ def analyzer(kafka_broker, read_topic, write_topic, model_path):
     a value and then write that value to another Kafka topic"""
     consumer = KafkaConsumer(read_topic,
                              auto_offset_reset='earliest',
-                             key_deserializer= lambda x: x.decode("utf-8"),
+                             #key_deserializer= lambda x: x.decode("utf-8"),
                              value_deserializer=lambda x: json.loads(x),
                              bootstrap_servers=[kafka_broker])
     producer = KafkaProducer(bootstrap_servers=kafka_broker,
@@ -36,7 +36,7 @@ def analyzer(kafka_broker, read_topic, write_topic, model_path):
             features = {k: v for k,v in msg.value.items() if k not in
                         ['Time', 'AccntNum', 'Class', 'UserType', 'UserID']}
             # do stuff with it and then pass to model
-            producer.send(write_topic, key=msg.key, value={"flag": bool(random.getrandbits(1))})
+            producer.send(write_topic, key=msg.value["UserID"], value={"flag": random.getrandbits(1)})
             producer.flush()
     except (KeyboardInterrupt, SystemExit):
         logger.info("KeyboardInterrupt")
@@ -59,7 +59,7 @@ def main(kafka_broker, read_topic, write_topic, folder_path):
         p.start()
     for a in analyzers:
         a.join()
-        logger.info("Consumer finished with code {}".format(c.exitcode))
+        logger.info("Consumer finished with code {}".format(a.exitcode))
 
 
 if __name__ == "__main__":

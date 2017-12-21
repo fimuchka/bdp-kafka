@@ -54,14 +54,16 @@ public class KafkaStreaming {
         KTable<String, JsonNode> flaggedAccounts = builder.table("flagged",
                 Consumed.with(stringSerde, jsonSerde));
 
-        KGroupedStream<String, JsonNode> decisions = decisionSource.groupByKey();
-
-        KTable<String, JsonNode> ultimateDecision = decisions.reduce((ldecision, rdecision) -> {
-            Boolean ld = ldecision.get("decision").asInt() > 0;
-            Boolean rd = rdecision.get("decision").asInt() > 0;
-            if (ld || rd) return rdecision;
-            return null;
-        }).filter((key,value) -> value != null);
+//        KGroupedStream<String, JsonNode> decisions = decisionSource.groupByKey();
+//
+//        KTable<String, JsonNode> ultimateDecision = decisions.reduce((ldecision, rdecision) -> {
+//            Boolean ld = ldecision.get("decision").asInt() > 0;
+//            Boolean rd = rdecision.get("decision").asInt() > 0;
+//            if (ld || rd) return rdecision;
+//            return null;
+//        }).filter((key,value) -> value != null);
+//
+//        ultimateDecision.toStream().to("flagged", Produced.with(stringSerde, jsonSerde));
         // Pre-process the raw stream to obfuscate it and create a key from the UserID
         KStream<String, JsonNode> obfuscatedTransactions = KafkaStreaming.obfuscatorStream(
                 rawTransactionsSource, stringSerde, jsonSerde);
