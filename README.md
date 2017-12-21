@@ -91,6 +91,7 @@ There could be many subscribers to a message. We call those subscribers "consume
   ```
 
  ### Simple Producer
+ * [Producer description](./producer.md)
  * The first thing we'll test out is a simple Producer. This is coded in Python and uses a python
  kafka library. The producer will read in a csv file and will send each line as a message to a Kafka
  topic. The source code is commented and is in `src/python/activity_producer.py`
@@ -115,6 +116,7 @@ There could be many subscribers to a message. We call those subscribers "consume
  * Note that the key of the message is null
 
 ### Simple consumer
+* [Consumer description](./consumer.md)
  * Now we're going to test out a basic consumer. This consumer is also written in Python and is
  available in `src/python/simple_consumer.py`. This is a multiprocess application that by default
  launches 2 consumers that consume from the `preprocessed` topic and put their results into the `decision`
@@ -140,18 +142,14 @@ There could be many subscribers to a message. We call those subscribers "consume
  * To stop the consumer, press ctrl-c in the terminal where you started it
 
 ### Kafka streaming
+ * [Kafka streaming description](./streaming.md)
  * Now we're going to look at Kafka Streaming. As this is a native Kafka library that's written in Java, the application
  we've written is also in Java and can be found in `src/main/java/com.bdpkafka/KafkaStreaming.java`. The addition of a
- streaming component changes the flow of the application. We're going to use the simple producer we went over above
- to write messages to the raw topic. The Kafka streaming application will then preprocess them to obfuscate the account id
- and also to filter the transactions for any accounts that were marked as flagged. Then it will write these obfuscated and
- filtered messages to the preprocessed topic. The two consumers we ran above will now read from the preprocessed topic and in
- default mode will both make a separate decision as to whether a transaction should be flagged and will write out the result
- to the decision topic. In effect, you'll have two decisions per transaction, both with the same key (UserId). Another stream
- (also declared in the same Java file) will then group and filter the decisions to insert flagged accounts into a `flagged`
- topic. This `flagged` topic is used to filter during preprocessing.
- * Compile and copy the our jar to the Kafka broker. Normally you would not run a streaming application on the broker but within
- our Docker configuration it's the simpler option. You can also download the jar from the releases in Github
+ streaming component changes the flow of the application.
+     * We're going to use the simple producer we went over above to write messages to the raw topic. The Kafka streaming application will then preprocess them to obfuscate the account id and also to filter the transactions for any accounts that were marked as flagged (initially an empty flagged topic).
+     *Then it will write these obfuscated and filtered messages to the preprocessed topic. The two consumers we ran above will now read from the preprocessed topic and in default mode will both make a separate decision as to whether a transaction should be flagged and will write out the result to the decision topic. In effect, you'll have two decisions per transaction, both with the same key (UserId). 
+     * Another stream (also declared in the same Java file) will then group and filter the decisions to insert flagged accounts into a `flagged` topic. This `flagged` topic is used to filter during preprocessing when new transactions are processed.
+ * Compile and copy the our jar to the Kafka broker. If you can't compile Java, download the jar from releases on Gihub. Normally you would not run a streaming application on the broker but within our Docker configuration it's the simpler option. You can also download the jar from the releases in Github
  ```bash
    mvn package
    docker cp target/bdp-kafka-0.0.1.jar bdpkafka_kafka_2_1:/opt/kafka/libs/bdp-kafka-0.0.1.jar
