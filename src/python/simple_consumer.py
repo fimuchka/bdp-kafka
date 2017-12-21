@@ -29,14 +29,15 @@ def analyzer(kafka_broker, read_topic, write_topic, model_path):
                              bootstrap_servers=[kafka_broker])
     producer = KafkaProducer(bootstrap_servers=kafka_broker,
                              key_serializer=lambda x: x.encode("utf-8"),
-                             value_serializer=lambda x: json.dumps(x).encode(
+                             value_serializer=lambda x: x.encode(
                                  "utf-8"))
     try:
         for msg in consumer:
             features = {k: v for k,v in msg.value.items() if k not in
                         ['Time', 'AccntNum', 'Class', 'UserType', 'UserID']}
             # do stuff with it and then pass to model
-            producer.send(write_topic, key=msg.value["UserID"], value={"flag": random.getrandbits(1)})
+            producer.send(write_topic, key=msg.value["UserID"],
+                          value=str(random.getrandbits(1)))
             producer.flush()
     except (KeyboardInterrupt, SystemExit):
         logger.info("KeyboardInterrupt")

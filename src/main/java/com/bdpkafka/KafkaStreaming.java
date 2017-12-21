@@ -1,6 +1,7 @@
 package com.bdpkafka;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.streams.Consumed;
@@ -48,26 +49,15 @@ public class KafkaStreaming {
         // We're going to read from three different topics
         KStream<JsonNode, JsonNode> rawTransactionsSource = builder.stream("raw",
                 Consumed.with(jsonSerde, jsonSerde));
-        KStream<String, JsonNode> decisionSource = builder.stream("decision",
-                Consumed.with(stringSerde, jsonSerde));
+        KStream<byte[], byte[]> decisionSource = builder.stream("decision",
+                Consumed.with(Serdes.ByteArray(), Serdes.ByteArray()));
         // We're going to treat this topic as a table instead of a stream
         KTable<String, JsonNode> flaggedAccounts = builder.table("flagged",
                 Consumed.with(stringSerde, jsonSerde));
 
-//        KGroupedStream<String, JsonNode> decisions = decisionSource.groupByKey();
-//
-//        KTable<String, JsonNode> ultimateDecision = decisions.reduce((ldecision, rdecision) -> {
-//            Boolean ld = ldecision.get("decision").asInt() > 0;
-//            Boolean rd = rdecision.get("decision").asInt() > 0;
-//            if (ld || rd) return rdecision;
-//            return null;
-//        }).filter((key,value) -> value != null);
-//
-//        ultimateDecision.toStream().to("flagged", Produced.with(stringSerde, jsonSerde));
         // Pre-process the raw stream to obfuscate it and create a key from the UserID
         KStream<String, JsonNode> obfuscatedTransactions = KafkaStreaming.obfuscatorStream(
                 rawTransactionsSource, stringSerde, jsonSerde);
-
 
         // Join the flagged accounts on the incoming transactions to filter
         // out any transactions from users that have been already flagged
@@ -75,6 +65,13 @@ public class KafkaStreaming {
         KStream<String, JsonNode> preprocessedTransactions = transactionJoinFilter(
                 obfuscatedTransactions, flaggedAccounts);
 
+        // A stream that groups decisions by account key and comes up with a final
+        // decision. If the account is flagged, write to the flagged topic
+        KStream<String, JsonNode> decisionCombiner = KafkaStreaming.combineDecisions(
+                decisionSource);
+
+        // Output the model decision to the flagged topic
+        decisionCombiner.to("flagged", Produced.with(stringSerde, jsonSerde));
         // Output the filtered transactions to the preprocessed topic
         preprocessedTransactions.to("preprocessed", Produced.with(stringSerde, jsonSerde));
 
@@ -115,7 +112,7 @@ public class KafkaStreaming {
      */
     public static Properties createStreamsConf(String bootstrapServer) throws Exception {
         Properties streamsConf = new Properties();
-        streamsConf.put(StreamsConfig.APPLICATION_ID_CONFIG, "bdp_streaming1");
+        streamsConf.put(StreamsConfig.APPLICATION_ID_CONFIG, "bdp_streaming");
         streamsConf.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
         streamsConf.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);
         streamsConf.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
@@ -168,5 +165,37 @@ public class KafkaStreaming {
                     // return a null node so we can filter out on it
                     return null;
                 }).filter((key, value) -> value != null);
+    }
+
+    /**
+     * Group the decision topic by key to get all the model decisions and combine them
+     * @param decisionSource
+     * @return
+     */
+    public static KStream<String, JsonNode> combineDecisions(
+            KStream<byte[], byte[]> decisionSource) {
+        // The output from Python is byte arrays, so we have to go through a bunch
+        // of steps to get them to String, JsonNode
+
+        //Group by key: UserID
+        KGroupedStream<byte[], byte[]> decisions = decisionSource.groupByKey();
+        //If neither of the models returns a 1 (i.e. flagged) then make sure we can filter
+        //this account out so we don't flag it
+        KTable<byte[], byte[]> ultimateDecision = decisions.reduce((ldecision, rdecision) -> {
+            Boolean ld = (new String(ldecision).equals("1") ? Boolean.TRUE: Boolean.FALSE);
+            Boolean rd = (new String(rdecision).equals("1") ? Boolean.TRUE: Boolean.FALSE);
+            if (ld || rd) return rdecision;
+            return new byte[0];
+        })
+                // filter out all the empty byte arrays from the previous step,
+                // ie the ones we passed to represent negative results from the model
+                .filter((key,value) -> value.length != 0);
+        // Convert the value and string to the values we want (String, JsonNode)
+        return ultimateDecision.mapValues(value -> {
+            String val = new String(value);
+            ObjectNode test = new ObjectMapper().createObjectNode();
+            test.put("flag", val);
+            return (JsonNode)test;
+        }).toStream().selectKey((key,value) -> new String(key));
     }
 }
